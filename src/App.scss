@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+.wrapper {
+  border: 1px solid red;
+  //padding:  0px 50px;
+  width: 100%;
+  //height: 100%;
+  height: 100vh;
+  background-image: url('./images/movie.png');
+  background-size: cover;
+
+}
+.header {
+  border: 1px solid lightgray;
+
+}
+.header__inner {
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+}
+.header__logo {
+  color: white;
+  font-weight: bold;
+}
+.header__user button {
+  margin-left: 20px;
+}
