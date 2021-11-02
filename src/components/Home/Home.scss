@@ -1,0 +1,18 @@
+@import "../../style/general.scss";
+
+.home {
+  padding: 0 10px;
+  //height: 100vh;
+  background-color: rgb(70, 67, 67);
+  //height: 100vh;
+  
+  &__inner {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+.swiper-button-prev::after,
+.swiper-button-next::after{
+  color:azure;
+}
