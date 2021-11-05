@@ -1,10 +1,6 @@
-@import "../../style/general.scss";
-
 .home {
   padding: 0 10px;
-  //height: 100vh;
   background-color: rgb(70, 67, 67);
-  //height: 100vh;
   
   &__inner {
     max-width: 1200px;
@@ -12,7 +8,22 @@
     margin: 0 auto;
   }
 }
+
 .swiper-button-prev::after,
 .swiper-button-next::after{
   color:azure;
+}
+
+.slider {
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color:#fff;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+    &:hover {
+      color: lightgray;
+    }
+  }
 }

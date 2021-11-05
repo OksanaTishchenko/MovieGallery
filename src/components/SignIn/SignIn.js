@@ -1,32 +1,29 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './SignIn.scss';
-import closeBtn from '../../images/close.png';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import closeBtn from "../../images/close.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "../../context/AuthContext";
 
 function SignIn() {
-  const [currentUser, setCurrentUser] = useState({
-    userId: null,
-    isAutheticated: false
-  });
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const auth = useContext(AuthContext);
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [emailTouch, setEmailTouch] = useState(false);
   const [passwordTouch, setPasswordTouch] = useState(false);
-  const [emailError, setEmailError] = useState('This field cannot be empty');
-  const [passwordError, setPasswordError] = useState('This field cannot be empty');
+  const [emailError, setEmailError] = useState("This field cannot be empty");
+  const [passwordError, setPasswordError] = useState("This field cannot be empty");
   const [formValid, setFormValid] = useState(false);
 
   const onBlurInput = e => {
-    //console.log(e.target.name);
-    if (e.target.name === 'email') {
+    if (e.target.name === "email") {
       setEmailTouch(true);
     }
-    if (e.target.name === 'password') {
+    if (e.target.name === "password") {
       setPasswordTouch(true);
     }
-  }
+  };
 
   function validationEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -37,24 +34,49 @@ function SignIn() {
     const value = e.target.value;
     setEmail(value);
     if (!validationEmail(value)) {
-      setEmailError('The email is incorrect');
+      setEmailError("The email is incorrect");
       if (!value) {
-        setEmailError('This field cannot be empty');
+        setEmailError("This field cannot be empty");
       }
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
+
   const passwordHandler = e => {
     const value = e.target.value;
     setPassword(value);
     if (value.length < 6) {
-      setPasswordError('The password must be longer');
+      setPasswordError("The password must be longer");
       if (!value) {
-        setPasswordError('This field cannot be empty');
+        setPasswordError("This field cannot be empty");
       }
     } else {
-      setPasswordError('');
+      setPasswordError("");
+    }
+  };
+
+  const formSubmit = e => {
+    e.preventDefault();
+    const users = JSON.parse(localStorage.getItem("users"));
+    const user = users.find(user => {
+      return user.email === email && user.password === password;
+    })
+
+    if (!user) {
+      toast.error("Invalid email or password", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      console.log(user);
+      auth.login(user.id, user.name);
+      history.push("/browse");
     }
   };
 
@@ -65,34 +87,6 @@ function SignIn() {
       setFormValid(true)
     }
   }, [emailError, passwordError]);
-
-  const formSubmit = e => {
-    e.preventDefault();
-    // setEmail('');
-    // setPassword('');
-    const users = JSON.parse(localStorage.getItem('users'));
-    const user = users.find(user => {
-      return user.email === email && user.password === password;
-    })
-    if (!user) {
-      toast.error('Invalid email or password', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    } else {
-      setCurrentUser({ userId: user.id, isAutheticated: true });
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    }
-  }
-
-  useEffect(() => {
-    setCurrentUser(JSON.parse(localStorage.getItem('currentUser')) || {})
-  }, [])
 
   return (
     <div className="login">
@@ -117,20 +111,20 @@ function SignIn() {
               <img src={closeBtn} alt="" />
             </Link>
           </div>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-          <ToastContainer />
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <ToastContainer />
     </div>
   );
 }

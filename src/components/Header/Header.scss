@@ -1,0 +1,40 @@
+.header {
+  background-color: black;
+  margin-bottom: 30px;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+
+  &__logo {
+    color: white;
+    font-weight: bold
+  }
+
+  .menu {
+    display: flex;
+
+    &__text {
+      color: #fff;
+      margin-right: 20px;
+    }
+
+    &__item + li {
+      margin-left: 20px;
+    }
+
+    &__link {
+      color: #fff;
+      transition: .15s;
+
+      &:hover {
+        color: tomato
+      }
+
+      &.active {
+        color:  rgb(100%,83.137256%,29.019609%);
+      }
+    }
+  }
+}

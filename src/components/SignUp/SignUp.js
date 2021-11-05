@@ -1,48 +1,46 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './SignUp.scss';
-import closeBtn from '../../images/close.png';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import closeBtn from "../../images/close.png";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUp() {
-  const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')) || []);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [users, setUsers] = useState(JSON.parse(localStorage.getItem("users")) || []);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [nameTouch, setNameTouch] = useState(false);
   const [emailTouch, setEmailTouch] = useState(false);
   const [passwordTouch, setPasswordTouch] = useState(false);
-  const [nameError, setNameError] = useState('This field cannot be empty');
-  const [emailError, setEmailError] = useState('This field cannot be empty');
-  const [passwordError, setPasswordError] = useState('This field cannot be empty');
+  const [nameError, setNameError] = useState("This field cannot be empty");
+  const [emailError, setEmailError] = useState("This field cannot be empty");
+  const [passwordError, setPasswordError] = useState("This field cannot be empty");
   const [formValid, setFormValid] = useState(false);
 
   const onBlurInput = e => {
-    //console.log(e.target.name);
-    if (e.target.name === 'name') {
+    if (e.target.name === "name") {
       setNameTouch(true);
     }
-    if (e.target.name === 'email') {
+    if (e.target.name === "email") {
       setEmailTouch(true);
     }
-    if (e.target.name === 'password') {
+    if (e.target.name === "password") {
       setPasswordTouch(true);
     }
   }
 
   const nameHandler = e => {
-    //console.log(e.target.value);
     const value = e.target.value;
+
     setName(value);
     if (value.length < 2) {
-      setNameError('There should be more letters');
+      setNameError("There should be more letters");
       if (!value) {
-        setNameError('This field cannot be empty');
+        setNameError("This field cannot be empty");
       }
     } else {
-      setNameError('');
+      setNameError("");
     }
   };
 
@@ -56,38 +54,31 @@ function SignUp() {
 
     setEmail(value);
     if (!validationEmail(value)) {
-      setEmailError('The email is incorrect');
+      setEmailError("The email is incorrect");
       if (!value) {
-        setEmailError('This field cannot be empty');
+        setEmailError("This field cannot be empty");
       }
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
   const passwordHandler = e => {
     const value = e.target.value;
+
     setPassword(value);
     if (value.length < 6) {
-      setPasswordError('The password must be longer');
+      setPasswordError("The password must be longer");
       if (!value) {
-        setPasswordError('This field cannot be empty');
+        setPasswordError("This field cannot be empty");
       }
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
   };
 
-  useEffect(() => {
-    if (nameError || emailError || passwordError) {
-      setFormValid(false)
-    } else {
-      setFormValid(true)
-    }
-  }, [nameError, emailError, passwordError]);
-
   const messageToast = (text, type) => {
-    if (type === 'error') {
+    if (type === "error") {
       return toast.error(text, {
         position: "top-right",
         autoClose: 5000,
@@ -108,7 +99,7 @@ function SignUp() {
       draggable: true,
       progress: undefined,
     });
-  }
+  };
 
   const formSubmit = e => {
     e.preventDefault();
@@ -119,31 +110,37 @@ function SignUp() {
     })
 
     if (candidate) {
-      messageToast('User already exists', 'error');
+      messageToast("User already exists", "error");
     } else {
       const user = {
         name: name,
         email: email,
         password: password,
-        id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+        id: Math.random().toString(36).replace(/[^a-z]+/g, "").substr(0, 5)
       };
       setUsers([...users, user]);
-      setName('');
-      setEmail('');
-      setPassword('')
-      messageToast('User was created');
+      setName("");
+      setEmail("");
+      setPassword("")
+      messageToast("User was created");
     }
   };
 
   const saveUsersToLS = (arr) => {
-    return localStorage.setItem('users', JSON.stringify(arr));
+    return localStorage.setItem("users", JSON.stringify(arr));
   }
 
   useEffect(() => {
     saveUsersToLS(users);
   }, [users])
 
-
+  useEffect(() => {
+    if (nameError || emailError || passwordError) {
+      setFormValid(false)
+    } else {
+      setFormValid(true)
+    }
+  }, [nameError, emailError, passwordError]);
 
   return (
     <div className="registration">
@@ -167,27 +164,26 @@ function SignUp() {
           </div>
           <div className="form__button">
             <button disabled={!formValid} className="form__submit" type="submit">Sign up</button>
-            {/* <button className="form__submit" type="submit">Send</button> */}
           </div>
           <div className="form__close">
             <Link to="/">
               <img src={closeBtn} alt="" />
             </Link>
           </div>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-          <ToastContainer />
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <ToastContainer />
     </div>
   );
 }
