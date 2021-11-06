@@ -3,13 +3,12 @@ import { useRoutes } from "./routes";
 import { AuthContext } from "./context/AuthContext";
 import { useAuth } from "./Hooks/Auth.hook";
 
-
 import "./App.scss";
 
 function App() {
   const { userId, name, login, logout } = useAuth();
   const isAuth = !!userId;
-  const routes = useRoutes(isAuth)
+  const routes = useRoutes(isAuth);
 
   return (
     <AuthContext.Provider value={{

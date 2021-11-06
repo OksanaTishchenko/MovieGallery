@@ -74,7 +74,6 @@ function SignIn() {
         progress: undefined,
       });
     } else {
-      console.log(user);
       auth.login(user.id, user.name);
       history.push("/browse");
     }
@@ -112,6 +111,7 @@ function SignIn() {
             </Link>
           </div>
         </form>
+
       </div>
       <ToastContainer
         position="top-right"

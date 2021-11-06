@@ -127,3 +127,10 @@ a {
     max-width: 540px;
   }
 }
+
+@media (max-width: 480px) {
+  .form {
+    width: 90%;
+    padding: 10px;
+  }
+}

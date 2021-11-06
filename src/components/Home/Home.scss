@@ -27,3 +27,20 @@
     }
   }
 }
+
+@media(max-width: 768px) {
+  .home {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home {
+    font-size: 10px;
+  }
+  .slider {
+    &__text {
+      width: 70%;
+    }
+  }
+}
